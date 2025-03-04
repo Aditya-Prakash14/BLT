@@ -19,3 +19,5 @@ requirements.txt
 *.log
 *.exe
 .vs
+
+.early.coverage

@@ -32,6 +32,7 @@ from google.cloud import storage
 from mdeditor.fields import MDTextField
 from rest_framework.authtoken.models import Token
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -142,6 +143,19 @@ class Organization(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Claim(models.Model):
+    user = models.ForeignKey('website.UserProfile', on_delete=models.CASCADE)
+    issue = models.ForeignKey('website.Issue', on_delete=models.CASCADE)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Claim by {self.user.username} on {self.issue.title}"
+
+    def get_absolute_url(self):
+      from django.urls import reverse
+      return reverse("issue_view", args=[str(self.issue.slug)]) #This should refer to issue
 
 
 class JoinRequest(models.Model):
